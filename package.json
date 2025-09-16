@@ -1,0 +1,24 @@
+{
+  "name": "personal-whiteboard-app",
+  "version": "1.0.0",
+  "description": "Personal whiteboard Teams app with presenter sharing capabilities",
+  "scripts": {
+    "start": "npx serve . -p 3000",
+    "serve": "npx serve . -p 3000",
+    "dev": "npx serve . -p 3000"
+  },
+  "devDependencies": {
+    "serve": "^14.2.1"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "keywords": [
+    "teams",
+    "whiteboard",
+    "collaboration",
+    "meetings"
+  ],
+  "author": "Your Company",
+  "license": "MIT"
+}

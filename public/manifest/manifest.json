@@ -1,0 +1,74 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.16/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.16",
+  "version": "1.0.0",
+  "id": "12345678-1234-1234-1234-123456789012",
+  "packageName": "com.yourcompany.personalwhiteboard",
+  "developer": {
+    "name": "Your Company Name",
+    "websiteUrl": "https://yourapp.com",
+    "privacyUrl": "https://yourapp.com/privacy",
+    "termsOfUseUrl": "https://yourapp.com/terms"
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "name": {
+    "short": "Personal Whiteboard",
+    "full": "Personal Whiteboard for Teams Meetings"
+  },
+  "description": {
+    "short": "Private whiteboards with presenter sharing capabilities",
+    "full": "Enhanced meeting experience with personal whiteboards for each participant and presenter controls to share selected whiteboards on the meeting stage"
+  },
+  "accentColor": "#FFFFFF",
+  "staticTabs": [
+    {
+      "entityId": "personalWhiteboard",
+      "name": "My Board",
+      "contentUrl": "https://yellow-sky-0d6c0ba10.1.azurestaticapps.net/sidepanel.html?{context}",
+      "scopes": ["personal", "groupchat"],
+      "context": ["personalTab", "meetingSidePanel"]
+    }
+  ],
+  "configurableTabs": [
+    {
+      "configurationUrl": "https://yellow-sky-0d6c0ba10.1.azurestaticapps.net/config.html?{context}",
+      "scopes": ["groupchat"],
+      "context": ["meetingStage"],
+      "sharePointPreviewImage": "sharepoint-preview.png",
+      "supportedSharePointHosts": ["sharePointFullPage", "sharePointWebPart"]
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": [
+    "yellow-sky-0d6c0ba10.1.azurestaticapps.net",
+    "*.azurestaticapps.net"
+  ],
+  "webApplicationInfo": {
+    "id": "87654321-4321-4321-4321-210987654321",
+    "resource": "https://RscBasedStoreApp"
+  },
+  "authorization": {
+    "permissions": {
+      "resourceSpecific": [
+        {
+          "name": "LiveShareSession.ReadWrite.Chat",
+          "type": "Delegated"
+        },
+        {
+          "name": "LiveShareSession.ReadWrite.Group",
+          "type": "Delegated"
+        },
+        {
+          "name": "TeamsActivity.Send.Chat",
+          "type": "Application"
+        }
+      ]
+    }
+  }
+}
