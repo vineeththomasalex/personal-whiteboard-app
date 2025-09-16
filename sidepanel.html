@@ -116,10 +116,27 @@
     </button>
 
     <script>
-        // Initialize Teams SDK
-        microsoftTeams.app.initialize().then(() => {
-            console.log('Teams app initialized');
-        });
+        // Initialize Teams SDK with error handling
+        try {
+            microsoftTeams.app.initialize().then(() => {
+                console.log('Teams app initialized successfully');
+                // Notify Teams that the app is ready
+                microsoftTeams.app.notifySuccess();
+            }).catch((error) => {
+                console.error('Teams initialization failed:', error);
+                // Still try to make the app functional
+                initializeApp();
+            });
+        } catch (error) {
+            console.error('Teams SDK error:', error);
+            // Fallback for non-Teams environments
+            initializeApp();
+        }
+
+        function initializeApp() {
+            console.log('App initialized (fallback mode)');
+            // App will still work outside Teams context
+        }
 
         // Canvas setup
         const canvas = document.getElementById('whiteboard');
@@ -223,9 +240,29 @@
         
         // Share to stage
         function shareToStage() {
-            // For now, just open the stage view in a new window
-            // In real implementation, this would use Teams SDK to share to meeting stage
-            alert('Sharing to stage! (This will open the stage view)');
+            try {
+                // Try to use Teams SDK to share to meeting stage
+                if (typeof microsoftTeams !== 'undefined' && microsoftTeams.meeting) {
+                    microsoftTeams.meeting.shareAppContentToStage((error, result) => {
+                        if (error) {
+                            console.error('Failed to share to stage:', error);
+                            fallbackShare();
+                        } else {
+                            console.log('Successfully shared to stage');
+                        }
+                    }, window.location.origin + '/stage.html');
+                } else {
+                    fallbackShare();
+                }
+            } catch (error) {
+                console.error('Share to stage error:', error);
+                fallbackShare();
+            }
+        }
+        
+        function fallbackShare() {
+            // Fallback: open stage view in new window for testing
+            alert('Opening stage view for testing (in a real meeting, this would share to the stage)');
             window.open('stage.html', '_blank', 'width=1200,height=800');
         }
     </script>
