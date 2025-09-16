@@ -3,6 +3,7 @@
   "manifestVersion": "1.16",
   "version": "1.0.0",
   "id": "7eed0d91-6702-4616-bba8-90498bcc3376",
+  "packageName": "com.vineeth.personalwhiteboard",
   "developer": {
     "name": "Teams Whiteboard App",
     "websiteUrl": "https://github.com/vineeththomasalex/personal-whiteboard-app",
