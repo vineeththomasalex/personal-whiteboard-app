@@ -116,26 +116,50 @@
     </button>
 
     <script>
-        // Initialize Teams SDK with error handling
-        try {
-            microsoftTeams.app.initialize().then(() => {
-                console.log('Teams app initialized successfully');
-                // Notify Teams that the app is ready
-                microsoftTeams.app.notifySuccess();
-            }).catch((error) => {
-                console.error('Teams initialization failed:', error);
-                // Still try to make the app functional
-                initializeApp();
-            });
-        } catch (error) {
-            console.error('Teams SDK error:', error);
-            // Fallback for non-Teams environments
-            initializeApp();
-        }
-
+        // Initialize Teams SDK with comprehensive error handling
+        let teamsInitialized = false;
+        
         function initializeApp() {
             console.log('App initialized (fallback mode)');
             // App will still work outside Teams context
+            resizeCanvas(); // Ensure canvas is properly sized
+        }
+
+        // Try Teams initialization with multiple fallbacks
+        if (typeof microsoftTeams !== 'undefined') {
+            try {
+                // Set up initialization timeout
+                const initTimeout = setTimeout(() => {
+                    if (!teamsInitialized) {
+                        console.warn('Teams initialization timeout, using fallback');
+                        initializeApp();
+                    }
+                }, 5000);
+
+                microsoftTeams.app.initialize().then(() => {
+                    console.log('Teams app initialized successfully');
+                    teamsInitialized = true;
+                    clearTimeout(initTimeout);
+                    
+                    // Notify Teams that the app is ready
+                    microsoftTeams.app.notifySuccess();
+                    
+                    // Initialize app functionality
+                    initializeApp();
+                }).catch((error) => {
+                    console.error('Teams initialization failed:', error);
+                    clearTimeout(initTimeout);
+                    // Still try to make the app functional
+                    initializeApp();
+                });
+            } catch (error) {
+                console.error('Teams SDK error:', error);
+                // Fallback for non-Teams environments
+                initializeApp();
+            }
+        } else {
+            console.warn('Teams SDK not available, using fallback mode');
+            initializeApp();
         }
 
         // Canvas setup
