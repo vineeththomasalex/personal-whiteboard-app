@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personal Whiteboard - Configuration</title>
-    <script src="https://res.cdn.office.net/teams-js/2.0.0/js/MicrosoftTeams.min.js"></script>
+    <script src="https://res.cdn.office.net/teams-js/2.19.0/js/MicrosoftTeams.min.js"></script>
     <style>
         body {
             margin: 0;
@@ -143,37 +143,49 @@
     </div>
 
     <script>
+        console.log('[CONFIG] 🚀 Personal Whiteboard Config page starting');
+        console.log('[CONFIG] URL:', window.location.href);
+        
         let teamsContext = null;
 
-        // Initialize Teams SDK
+        // Initialize Teams SDK with logging
+        console.log('[CONFIG] 📱 Initializing Teams SDK...');
         microsoftTeams.app.initialize().then(() => {
-            console.log('Teams config page initialized');
+            console.log('[CONFIG] ✅ Teams config page initialized successfully');
             
             // Get Teams context
+            console.log('[CONFIG] 📋 Getting Teams context...');
             return microsoftTeams.app.getContext();
         }).then((context) => {
             teamsContext = context;
-            console.log('Teams context:', context);
+            console.log('[CONFIG] ✅ Teams context received:', context);
             
             // Enable the save button once Teams is ready
             microsoftTeams.pages.config.registerOnSaveHandler((saveEvent) => {
+                console.log('[CONFIG] 💾 Save handler called');
                 // This is called when user clicks "Save" in Teams
                 const baseUrl = window.location.origin + window.location.pathname.replace('config.html', '');
+                console.log('[CONFIG] 🔗 Base URL:', baseUrl);
                 
-                microsoftTeams.pages.config.setConfig({
+                const configData = {
                     contentUrl: baseUrl + 'stage.html',
                     entityId: 'personalWhiteboard',
                     suggestedDisplayName: 'Personal Whiteboard'
-                });
+                };
+                console.log('[CONFIG] ⚙️ Setting config:', configData);
                 
+                microsoftTeams.pages.config.setConfig(configData);
+                
+                console.log('[CONFIG] ✅ Notifying save success');
                 saveEvent.notifySuccess();
             });
             
             // Indicate that configuration is valid
+            console.log('[CONFIG] ✅ Setting validity state to true');
             microsoftTeams.pages.config.setValidityState(true);
             
         }).catch((error) => {
-            console.error('Failed to initialize Teams config:', error);
+            console.error('[CONFIG] ❌ Failed to initialize Teams config:', error);
             showStatus('Failed to initialize Teams configuration', 'error');
         });
 

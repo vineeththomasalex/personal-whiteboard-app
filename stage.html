@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personal Whiteboard - Stage View</title>
-    <script src="https://res.cdn.office.net/teams-js/2.0.0/js/MicrosoftTeams.min.js"></script>
+    <script src="https://res.cdn.office.net/teams-js/2.19.0/js/MicrosoftTeams.min.js"></script>
     <style>
         body {
             margin: 0;
@@ -206,9 +206,15 @@
     </div>
 
     <script>
-        // Initialize Teams SDK
+        console.log('[STAGE] 🚀 Personal Whiteboard Stage page starting');
+        console.log('[STAGE] URL:', window.location.href);
+        
+        // Initialize Teams SDK with logging
+        console.log('[STAGE] 📱 Initializing Teams SDK...');
         microsoftTeams.app.initialize().then(() => {
-            console.log('Teams stage app initialized');
+            console.log('[STAGE] ✅ Teams stage app initialized successfully');
+        }).catch((error) => {
+            console.error('[STAGE] ❌ Teams initialization failed:', error);
         });
 
         let currentParticipantIndex = 1; // Jane Smith is initially selected
