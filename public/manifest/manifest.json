@@ -35,6 +35,10 @@
     "identity",
     "messageTeamMembers"
   ],
+  "defaultGroupCapability": {
+    "team": "tab",
+    "groupchat": "tab"
+  },
   "validDomains": [
     "vineeththomasalex.github.io"
   ],
