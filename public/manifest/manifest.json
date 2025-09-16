@@ -2,8 +2,7 @@
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.16/MicrosoftTeams.schema.json",
   "manifestVersion": "1.16",
   "version": "1.0.0",
-  "id": "fa2dc297-8edc-4e85-8e0c-e671059aea85",
-  "packageName": "com.vineeth.personalwhiteboard",
+  "id": "7eed0d91-6702-4616-bba8-90498bcc3376",
   "developer": {
     "name": "Teams Whiteboard App",
     "websiteUrl": "https://github.com/vineeththomasalex/personal-whiteboard-app",
@@ -28,17 +27,8 @@
       "entityId": "personalWhiteboard",
       "name": "My Board",
       "contentUrl": "https://vineeththomasalex.github.io/personal-whiteboard-app/sidepanel.html?{context}",
-      "scopes": ["personal", "groupchat"],
+      "scopes": ["personal", "groupChat"],
       "context": ["personalTab", "meetingSidePanel"]
-    }
-  ],
-  "configurableTabs": [
-    {
-      "configurationUrl": "https://vineeththomasalex.github.io/personal-whiteboard-app/config.html?{context}",
-      "scopes": ["groupchat"],
-      "context": ["meetingStage"],
-      "sharePointPreviewImage": "sharepoint-preview.png",
-      "supportedSharePointHosts": ["sharePointFullPage", "sharePointWebPart"]
     }
   ],
   "permissions": [
