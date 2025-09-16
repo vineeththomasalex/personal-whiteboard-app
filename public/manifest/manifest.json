@@ -2,13 +2,13 @@
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.16/MicrosoftTeams.schema.json",
   "manifestVersion": "1.16",
   "version": "1.0.0",
-  "id": "12345678-1234-1234-1234-123456789012",
-  "packageName": "com.yourcompany.personalwhiteboard",
+  "id": "fa2dc297-8edc-4e85-8e0c-e671059aea85",
+  "packageName": "com.vineeth.personalwhiteboard",
   "developer": {
-    "name": "Your Company Name",
-    "websiteUrl": "https://yourapp.com",
-    "privacyUrl": "https://yourapp.com/privacy",
-    "termsOfUseUrl": "https://yourapp.com/terms"
+    "name": "Teams Whiteboard App",
+    "websiteUrl": "https://github.com/vineeththomasalex/personal-whiteboard-app",
+    "privacyUrl": "https://github.com/vineeththomasalex/personal-whiteboard-app#privacy",
+    "termsOfUseUrl": "https://github.com/vineeththomasalex/personal-whiteboard-app#terms"
   },
   "icons": {
     "color": "color.png",
@@ -27,14 +27,14 @@
     {
       "entityId": "personalWhiteboard",
       "name": "My Board",
-      "contentUrl": "https://yellow-sky-0d6c0ba10.1.azurestaticapps.net/sidepanel.html?{context}",
+      "contentUrl": "https://vineeththomasalex.github.io/personal-whiteboard-app/sidepanel.html?{context}",
       "scopes": ["personal", "groupchat"],
       "context": ["personalTab", "meetingSidePanel"]
     }
   ],
   "configurableTabs": [
     {
-      "configurationUrl": "https://yellow-sky-0d6c0ba10.1.azurestaticapps.net/config.html?{context}",
+      "configurationUrl": "https://vineeththomasalex.github.io/personal-whiteboard-app/config.html?{context}",
       "scopes": ["groupchat"],
       "context": ["meetingStage"],
       "sharePointPreviewImage": "sharepoint-preview.png",
@@ -46,11 +46,10 @@
     "messageTeamMembers"
   ],
   "validDomains": [
-    "yellow-sky-0d6c0ba10.1.azurestaticapps.net",
-    "*.azurestaticapps.net"
+    "vineeththomasalex.github.io"
   ],
   "webApplicationInfo": {
-    "id": "87654321-4321-4321-4321-210987654321",
+    "id": "f134524b-efb2-415a-be38-37aa9786c1b7",
     "resource": "https://RscBasedStoreApp"
   },
   "authorization": {
