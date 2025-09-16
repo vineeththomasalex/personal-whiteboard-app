@@ -145,3 +145,57 @@ This is a proof-of-concept implementation. The basic structure is complete and r
 - [Teams App Development Guide](https://docs.microsoft.com/en-us/microsoftteams/platform/overview)
 - [Live Share Canvas Package](https://docs.microsoft.com/en-us/javascript/api/@microsoft/live-share-canvas/)
 - [Teams Developer Portal](https://dev.teams.microsoft.com/)
+
+## 📜 Privacy Policy {#privacy}
+
+### Data Collection and Usage
+The Personal Whiteboard Teams App is designed with privacy in mind:
+
+- **No Data Storage**: All whiteboard drawings are session-only and are not stored on any servers
+- **No Personal Information**: The app does not collect, store, or transmit personal information beyond what Microsoft Teams provides for app functionality
+- **Meeting-Scoped Data**: All whiteboard content is scoped to the current Teams meeting and is automatically discarded when the meeting ends
+- **Microsoft Infrastructure**: All data flows through Microsoft's secure Live Share infrastructure
+
+### Data Sharing
+- **Explicit Sharing Only**: Your whiteboard content is only visible to other meeting participants when you or a presenter explicitly chooses to share it
+- **No Third-Party Access**: No whiteboard data is shared with third parties
+- **Teams Integration**: The app uses standard Microsoft Teams security and identity features
+
+### Data Retention
+- **Session-Only**: All whiteboard data is deleted when the meeting ends
+- **No Logs**: Drawing actions are not logged or recorded
+- **No Analytics**: The app does not collect usage analytics or telemetry
+
+### Contact
+For privacy concerns, please create an issue at: https://github.com/vineeththomasalex/personal-whiteboard-app/issues
+
+## 📋 Terms of Use {#terms}
+
+### Acceptance of Terms
+By using the Personal Whiteboard Teams App, you agree to these terms of use.
+
+### Permitted Use
+- **Meeting Enhancement**: This app is designed to enhance Microsoft Teams meetings with collaborative whiteboard functionality
+- **Educational and Business Use**: Appropriate for educational institutions, businesses, and professional organizations
+- **Compliance**: Users must comply with their organization's Microsoft Teams usage policies
+
+### Prohibited Use
+- **No Inappropriate Content**: Do not create or share offensive, inappropriate, or illegal content
+- **No Abuse**: Do not use the app in ways that could disrupt Teams meetings or violate Microsoft's terms of service
+- **No Commercial Redistribution**: This app is provided for use, not for redistribution or commercial resale
+
+### Disclaimer
+- **As-Is Service**: The app is provided "as-is" without warranties of any kind
+- **No Liability**: The developers are not liable for any issues arising from app usage
+- **Microsoft Teams Dependencies**: App functionality depends on Microsoft Teams and Live Share services
+
+### Open Source
+- **MIT License**: This app is open source under the MIT License
+- **Contributions Welcome**: Community contributions are welcomed through GitHub
+- **No Support Guarantee**: Support is provided on a best-effort basis
+
+### Changes to Terms
+These terms may be updated occasionally. Continued use constitutes acceptance of any changes.
+
+### Contact
+For terms-related questions, please create an issue at: https://github.com/vineeththomasalex/personal-whiteboard-app/issues
