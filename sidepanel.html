@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personal Whiteboard - Side Panel</title>
-    <script src="https://res.cdn.office.net/teams-js/2.0.0/js/MicrosoftTeams.min.js"></script>
+    <script src="https://res.cdn.office.net/teams-js/2.19.0/js/MicrosoftTeams.min.js"></script>
     <style>
         body {
             margin: 0;
@@ -116,63 +116,134 @@
     </button>
 
     <script>
+        // Enhanced logging function with timestamps
+        function log(level, message, data = null) {
+            const timestamp = new Date().toISOString();
+            const logMessage = `[${timestamp}] [${level.toUpperCase()}] Personal Whiteboard: ${message}`;
+            
+            if (level === 'error') {
+                console.error(logMessage, data || '');
+            } else if (level === 'warn') {
+                console.warn(logMessage, data || '');
+            } else {
+                console.log(logMessage, data || '');
+            }
+        }
+
+        log('info', '🚀 Starting Personal Whiteboard app');
+        log('info', 'Current URL', window.location.href);
+        log('info', 'User Agent', navigator.userAgent.substring(0, 100) + '...');
+        log('info', 'Teams SDK available', typeof microsoftTeams !== 'undefined');
+        
         // Initialize Teams SDK with comprehensive error handling
         let teamsInitialized = false;
         
         function initializeApp() {
-            console.log('App initialized (fallback mode)');
-            // App will still work outside Teams context
-            resizeCanvas(); // Ensure canvas is properly sized
+            log('info', '🎨 Initializing app functionality');
+            try {
+                resizeCanvas(); // Ensure canvas is properly sized
+                log('info', '✅ Canvas resized successfully');
+            } catch (error) {
+                log('error', '❌ Failed to resize canvas', error);
+            }
         }
 
-        // Try Teams initialization with multiple fallbacks
+        // Global error handlers with detailed logging
+        window.addEventListener('error', (event) => {
+            log('error', '🚨 Global JavaScript error', {
+                message: event.message,
+                filename: event.filename,
+                lineno: event.lineno,
+                colno: event.colno
+            });
+        });
+
+        window.addEventListener('unhandledrejection', (event) => {
+            log('warn', '⚠️ Unhandled promise rejection', event.reason);
+        });
+
+        // Try Teams initialization with extensive logging
         if (typeof microsoftTeams !== 'undefined') {
+            log('info', '📱 Teams SDK detected, starting initialization');
             try {
                 // Set up initialization timeout
                 const initTimeout = setTimeout(() => {
                     if (!teamsInitialized) {
-                        console.warn('Teams initialization timeout, using fallback');
+                        log('warn', '⏰ Teams initialization timeout after 3 seconds, using fallback');
                         initializeApp();
                     }
-                }, 5000);
+                }, 3000);
 
+                log('info', '🔄 Calling microsoftTeams.app.initialize()');
                 microsoftTeams.app.initialize().then(() => {
-                    console.log('Teams app initialized successfully');
+                    log('info', '✅ Teams app.initialize() successful');
                     teamsInitialized = true;
                     clearTimeout(initTimeout);
                     
+                    // Try to get Teams context for debugging
+                    try {
+                        log('info', '📋 Getting Teams context...');
+                        microsoftTeams.app.getContext().then((context) => {
+                            log('info', '📄 Teams context received', {
+                                appName: context.app?.name || 'unknown',
+                                pageId: context.page?.id || 'unknown',
+                                userId: context.user?.id ? 'present' : 'missing',
+                                meetingId: context.meeting?.id ? 'present' : 'missing'
+                            });
+                        }).catch((contextError) => {
+                            log('warn', '⚠️ Failed to get Teams context', contextError);
+                        });
+                    } catch (contextError) {
+                        log('warn', '❌ Exception getting Teams context', contextError);
+                    }
+                    
                     // Notify Teams that the app is ready
-                    microsoftTeams.app.notifySuccess();
+                    try {
+                        log('info', '📢 Calling microsoftTeams.app.notifySuccess()');
+                        microsoftTeams.app.notifySuccess();
+                        log('info', '✅ Successfully notified Teams of app readiness');
+                    } catch (notifyError) {
+                        log('warn', '⚠️ Failed to notify Teams of success', notifyError);
+                    }
                     
                     // Initialize app functionality
                     initializeApp();
                 }).catch((error) => {
-                    console.error('Teams initialization failed:', error);
+                    log('error', '❌ Teams app.initialize() failed', error);
                     clearTimeout(initTimeout);
-                    // Still try to make the app functional
                     initializeApp();
                 });
             } catch (error) {
-                console.error('Teams SDK error:', error);
-                // Fallback for non-Teams environments
+                log('error', '💥 Exception during Teams SDK initialization', error);
                 initializeApp();
             }
         } else {
-            console.warn('Teams SDK not available, using fallback mode');
+            log('warn', '🌐 Teams SDK not available, using standalone mode');
             initializeApp();
         }
 
-        // Canvas setup
+        // Canvas setup with logging
         const canvas = document.getElementById('whiteboard');
         const ctx = canvas.getContext('2d');
         let isDrawing = false;
         let currentTool = 'pen';
         
-        // Set canvas size to container
+        log('info', '🎨 Canvas and context initialized');
+        
+        // Set canvas size to container with logging
         function resizeCanvas() {
-            const container = canvas.parentElement;
-            canvas.width = container.clientWidth - 4; // Account for border
-            canvas.height = container.clientHeight - 4;
+            try {
+                const container = canvas.parentElement;
+                const oldWidth = canvas.width;
+                const oldHeight = canvas.height;
+                
+                canvas.width = container.clientWidth - 4; // Account for border
+                canvas.height = container.clientHeight - 4;
+                
+                log('info', `📐 Canvas resized from ${oldWidth}x${oldHeight} to ${canvas.width}x${canvas.height}`);
+            } catch (error) {
+                log('error', '❌ Failed to resize canvas', error);
+            }
         }
         
         window.addEventListener('resize', resizeCanvas);
@@ -248,46 +319,68 @@
             canvas.dispatchEvent(mouseEvent);
         });
         
-        // Tool selection
+        // Tool selection with logging
         document.querySelectorAll('.tool-btn[data-tool]').forEach(btn => {
             btn.addEventListener('click', () => {
                 document.querySelectorAll('.tool-btn').forEach(b => b.classList.remove('active'));
                 btn.classList.add('active');
+                const oldTool = currentTool;
                 currentTool = btn.dataset.tool;
+                log('info', `🛠️ Tool changed from ${oldTool} to ${currentTool}`);
             });
         });
         
-        // Clear canvas
+        // Clear canvas with logging
         function clearCanvas() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            log('info', '🧹 Clearing canvas');
+            try {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                log('info', '✅ Canvas cleared successfully');
+            } catch (error) {
+                log('error', '❌ Failed to clear canvas', error);
+            }
         }
         
-        // Share to stage
+        // Share to stage with detailed logging
         function shareToStage() {
+            log('info', '🚀 Share to stage button clicked');
             try {
                 // Try to use Teams SDK to share to meeting stage
                 if (typeof microsoftTeams !== 'undefined' && microsoftTeams.meeting) {
+                    log('info', '📱 Teams meeting API available, attempting to share to stage');
+                    const stageUrl = window.location.origin + '/stage.html';
+                    log('info', '🔗 Stage URL', stageUrl);
+                    
                     microsoftTeams.meeting.shareAppContentToStage((error, result) => {
                         if (error) {
-                            console.error('Failed to share to stage:', error);
+                            log('error', '❌ Failed to share to stage via Teams API', error);
                             fallbackShare();
                         } else {
-                            console.log('Successfully shared to stage');
+                            log('info', '✅ Successfully shared to stage via Teams API', result);
                         }
-                    }, window.location.origin + '/stage.html');
+                    }, stageUrl);
                 } else {
+                    log('warn', '⚠️ Teams meeting API not available, using fallback');
                     fallbackShare();
                 }
             } catch (error) {
-                console.error('Share to stage error:', error);
+                log('error', '💥 Exception in shareToStage', error);
                 fallbackShare();
             }
         }
         
         function fallbackShare() {
-            // Fallback: open stage view in new window for testing
-            alert('Opening stage view for testing (in a real meeting, this would share to the stage)');
-            window.open('stage.html', '_blank', 'width=1200,height=800');
+            log('info', '🔄 Using fallback share method (opening new window)');
+            try {
+                const newWindow = window.open('stage.html', '_blank', 'width=1200,height=800');
+                if (newWindow) {
+                    log('info', '✅ Fallback share window opened successfully');
+                } else {
+                    log('error', '❌ Failed to open fallback share window (popup blocked?)');
+                }
+            } catch (error) {
+                log('error', '💥 Exception in fallbackShare', error);
+            }
         }
     </script>
 </body>
