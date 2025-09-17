@@ -37,26 +37,60 @@ const TeamsProvider: React.FC<TeamsProviderProps> = ({ children }) => {
 
   useEffect(() => {
     const initializeTeams = async () => {
-      console.log('[TEAMS] 🚀 Initializing Teams SDK...');
+      console.log('[TEAMS PROVIDER] 🚀 Starting Teams SDK initialization...');
+      console.log('[TEAMS PROVIDER] 🌐 Current URL:', window.location.href);
+      console.log('[TEAMS PROVIDER] 🌐 Current hash:', window.location.hash);
+      console.log('[TEAMS PROVIDER] 🌐 User agent:', navigator.userAgent);
+      console.log('[TEAMS PROVIDER] 🌐 Referrer:', document.referrer);
+      
+      // Check if we're in an iframe (Teams context)
+      const inIframe = window !== window.top;
+      console.log('[TEAMS PROVIDER] 🖼️ In iframe:', inIframe);
+      
+      // Check if Teams JS is available
+      const teamsJsAvailable = typeof window !== 'undefined' && (window as any).microsoftTeams;
+      console.log('[TEAMS PROVIDER] 📚 Teams JS available:', teamsJsAvailable);
       
       try {
+        console.log('[TEAMS PROVIDER] 📱 Attempting Teams SDK initialization...');
+        
         // Initialize Teams SDK
         await app.initialize();
-        console.log('[TEAMS] ✅ Teams SDK initialized successfully');
+        console.log('[TEAMS PROVIDER] ✅ Teams SDK initialized successfully');
 
         // Get Teams context
+        console.log('[TEAMS PROVIDER] 📋 Getting Teams context...');
         const teamsContext = await app.getContext();
-        console.log('[TEAMS] ✅ Teams context received:', teamsContext);
+        console.log('[TEAMS PROVIDER] ✅ Teams context received:', {
+          frameContext: teamsContext?.page?.frameContext,
+          entityId: teamsContext?.page?.id,
+          userId: teamsContext?.user?.id,
+          userName: teamsContext?.user?.displayName,
+          teamId: teamsContext?.team?.internalId,
+          channelId: teamsContext?.channel?.id,
+          locale: teamsContext?.app?.locale,
+          theme: teamsContext?.app?.theme
+        });
 
         setContext(teamsContext);
         setIsInTeams(true);
         setError(null);
+        console.log('[TEAMS PROVIDER] ✅ Teams initialization complete');
       } catch (err) {
-        console.warn('[TEAMS] ⚠️ Not running in Teams environment:', err);
+        console.warn('[TEAMS PROVIDER] ⚠️ Teams initialization failed:', err);
+        console.log('[TEAMS PROVIDER] 🔍 Error details:', {
+          message: err instanceof Error ? err.message : 'Unknown error',
+          stack: err instanceof Error ? err.stack : undefined,
+          inIframe,
+          teamsJsAvailable,
+          url: window.location.href
+        });
+        
         setIsInTeams(false);
         setError(err instanceof Error ? err.message : 'Failed to initialize Teams');
         
-        // For development outside Teams - create a minimal context
+        // Create development context
+        console.log('[TEAMS PROVIDER] 🛠️ Creating development context...');
         setContext({
           app: {
             locale: 'en-US',
@@ -72,7 +106,7 @@ const TeamsProvider: React.FC<TeamsProviderProps> = ({ children }) => {
             frameContext: 'content'
           },
           user: {
-            id: 'dev-user',
+            id: 'dev-user-' + Math.random().toString(36).substr(2, 9),
             displayName: 'Development User',
             userPrincipalName: 'dev@example.com'
           },
@@ -85,8 +119,10 @@ const TeamsProvider: React.FC<TeamsProviderProps> = ({ children }) => {
             displayName: 'Development Team'
           }
         });
+        console.log('[TEAMS PROVIDER] ✅ Development context created');
       } finally {
         setIsLoading(false);
+        console.log('[TEAMS PROVIDER] 🏁 Initialization process complete');
       }
     };
 
@@ -99,6 +135,8 @@ const TeamsProvider: React.FC<TeamsProviderProps> = ({ children }) => {
     isInTeams,
     error,
   };
+
+  console.log('[TEAMS PROVIDER] 📊 Current state:', { isLoading, isInTeams, hasContext: !!context, error });
 
   return (
     <TeamsContext.Provider value={value}>
