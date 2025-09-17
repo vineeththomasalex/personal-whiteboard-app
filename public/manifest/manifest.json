@@ -11,8 +11,8 @@
     "termsOfUseUrl": "https://github.com/vineeththomasalex/personal-whiteboard-app#terms"
   },
   "icons": {
-    "color": "color.svg",
-    "outline": "outline.svg"
+    "color": "color.png",
+    "outline": "outline.png"
   },
   "name": {
     "short": "Personal Whiteboard",
