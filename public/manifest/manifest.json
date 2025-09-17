@@ -1,26 +1,26 @@
 {
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.16/MicrosoftTeams.schema.json",
-  "manifestVersion": "1.16",
   "version": "1.0.0",
+  "manifestVersion": "1.16",
   "id": "7eed0d91-6702-4616-bba8-90498bcc3376",
   "packageName": "com.vineeth.personalwhiteboard",
+  "name": {
+    "short": "Personal Whiteboard",
+    "full": "Personal Whiteboard for Teams Meetings"
+  },
   "developer": {
     "name": "Teams Whiteboard App",
     "websiteUrl": "https://github.com/vineeththomasalex/personal-whiteboard-app",
     "privacyUrl": "https://github.com/vineeththomasalex/personal-whiteboard-app#privacy",
     "termsOfUseUrl": "https://github.com/vineeththomasalex/personal-whiteboard-app#terms"
   },
-  "icons": {
-    "color": "color.png",
-    "outline": "outline.png"
-  },
-  "name": {
-    "short": "Personal Whiteboard",
-    "full": "Personal Whiteboard for Teams Meetings"
-  },
   "description": {
     "short": "Private whiteboards with presenter sharing capabilities",
     "full": "Enhanced meeting experience with personal whiteboards for each participant and presenter controls to share selected whiteboards on the meeting stage"
+  },
+  "icons": {
+    "outline": "outline.png",
+    "color": "color.png"
   },
   "accentColor": "#FFFFFF",
   "staticTabs": [
@@ -28,24 +28,27 @@
       "entityId": "personalWhiteboard",
       "name": "My Board",
       "contentUrl": "https://vineeththomasalex.github.io/personal-whiteboard-app/sidepanel.html?{context}",
-      "scopes": ["personal", "groupChat"],
-      "context": ["personalTab", "meetingSidePanel"]
+      "scopes": [
+        "personal",
+        "groupChat"
+      ],
+      "context": [
+        "personalTab",
+        "meetingSidePanel"
+      ]
     }
   ],
-  "permissions": [
-    "identity",
-    "messageTeamMembers"
-  ],
-  "defaultGroupCapability": {
-    "team": "tab",
-    "groupchat": "tab"
-  },
   "validDomains": [
     "vineeththomasalex.github.io"
   ],
   "webApplicationInfo": {
     "id": "f134524b-efb2-415a-be38-37aa9786c1b7",
     "resource": "https://RscBasedStoreApp"
+  },
+  "defaultGroupCapability": {
+    "team": "tab",
+    "groupchat": "tab",
+    "meetings": "tab"
   },
   "authorization": {
     "permissions": {
