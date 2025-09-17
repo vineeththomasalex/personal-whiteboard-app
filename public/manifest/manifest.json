@@ -1,11 +1,11 @@
 {
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.16/MicrosoftTeams.schema.json",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "manifestVersion": "1.16",
   "id": "7eed0d91-6702-4616-bba8-90498bcc3376",
   "name": {
-    "short": "Personal Whiteboard",
-    "full": "Personal Whiteboard for Teams Meetings"
+    "short": "Personal Whiteboard React",
+    "full": "Personal Whiteboard for Teams Meetings (React + Live Share)"
   },
   "developer": {
     "name": "Teams Whiteboard App",

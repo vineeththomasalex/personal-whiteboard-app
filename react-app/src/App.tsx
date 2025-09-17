@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter as Router, Routes, Route } from 'react-router-dom';
 import { LiveShareProvider } from '@microsoft/live-share-react';
 import { LiveShareHost } from '@microsoft/teams-js';
 import { useState } from 'react';

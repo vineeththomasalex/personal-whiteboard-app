@@ -4,11 +4,11 @@
   "description": "Personal whiteboard Teams app with presenter sharing capabilities",
   "scripts": {
     "start": "npx serve . -p 3000",
-    "serve": "npx serve . -p 3000",
-    "dev": "npx serve . -p 3000",
+    "serve": "npx serve . -p 3000", 
+    "dev": "cd react-app && npm run dev",
     "build:react": "cd react-app && npm run build",
-    "copy:react": "node -e \"require('fs').cpSync('react-app/dist', 'react-build', {recursive: true, force: true})\"",
-    "build": "npm run build:react && npm run copy:react",
+    "clean": "node -e \"const fs = require('fs'); if(fs.existsSync('dist')) fs.rmSync('dist', {recursive: true, force: true}); if(fs.existsSync('react-build')) fs.rmSync('react-build', {recursive: true, force: true});\"",
+    "build": "npm run clean && npm run build:react",
     "deploy": "npm run build"
   },
   "devDependencies": {
