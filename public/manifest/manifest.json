@@ -1,9 +1,8 @@
 {
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.16/MicrosoftTeams.schema.json",
-  "version": "1.0.0",
+  "version": "1.0.3",
   "manifestVersion": "1.16",
   "id": "7eed0d91-6702-4616-bba8-90498bcc3376",
-  "packageName": "com.vineeth.personalwhiteboard",
   "name": {
     "short": "Personal Whiteboard",
     "full": "Personal Whiteboard for Teams Meetings"
@@ -23,6 +22,23 @@
     "color": "color.png"
   },
   "accentColor": "#FFFFFF",
+  "configurableTabs": [
+    {
+      "configurationUrl": "https://vineeththomasalex.github.io/personal-whiteboard-app/config.html",
+      "canUpdateConfiguration": true,
+      "scopes": [
+        "groupchat",
+        "team"
+      ],
+      "context": [
+        "meetingSidePanel",
+        "meetingStage",
+        "privateChatTab",
+        "channelTab",
+        "meetingChatTab"
+      ]
+    }
+  ],
   "staticTabs": [
     {
       "entityId": "personalWhiteboard",
@@ -42,22 +58,6 @@
   "validDomains": [
     "vineeththomasalex.github.io"
   ],
-  "configurableTabs": [
-    {
-      "configurationUrl": "https://vineeththomasalex.github.io/personal-whiteboard-app/config.html?{context}",
-      "scopes": [
-        "groupChat",
-        "team"
-      ],
-      "context": [
-        "meetingStage"
-      ]
-    }
-  ],
-  "permissions": [
-    "identity",
-    "messageTeamMembers"
-  ],
   "webApplicationInfo": {
     "id": "f134524b-efb2-415a-be38-37aa9786c1b7",
     "resource": "https://RscBasedStoreApp"
@@ -76,6 +76,14 @@
         },
         {
           "name": "LiveShareSession.ReadWrite.Group",
+          "type": "Delegated"
+        },
+        {
+          "name": "MeetingStage.Write.Chat",
+          "type": "Delegated"
+        },
+        {
+          "name": "ChannelMeetingStage.Write.Group",
           "type": "Delegated"
         },
         {
