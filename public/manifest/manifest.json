@@ -30,7 +30,8 @@
       "contentUrl": "https://vineeththomasalex.github.io/personal-whiteboard-app/sidepanel.html?{context}",
       "scopes": [
         "personal",
-        "groupChat"
+        "groupChat",
+        "team"
       ],
       "context": [
         "personalTab",
@@ -40,6 +41,22 @@
   ],
   "validDomains": [
     "vineeththomasalex.github.io"
+  ],
+  "configurableTabs": [
+    {
+      "configurationUrl": "https://vineeththomasalex.github.io/personal-whiteboard-app/config.html?{context}",
+      "scopes": [
+        "groupChat",
+        "team"
+      ],
+      "context": [
+        "meetingStage"
+      ]
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
   ],
   "webApplicationInfo": {
     "id": "f134524b-efb2-415a-be38-37aa9786c1b7",
