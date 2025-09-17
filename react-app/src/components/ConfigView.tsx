@@ -15,9 +15,9 @@ const ConfigView: React.FC = () => {
       pages.config.registerOnSaveHandler((saveEvent) => {
         console.log('[CONFIG] 💾 Save handler called');
         
-        const baseUrl = window.location.origin;
+        const baseUrl = window.location.origin + '/personal-whiteboard-app/dist';
         const configData = {
-          contentUrl: baseUrl + '/stage',
+          contentUrl: baseUrl + '/stage.html',
           entityId: 'personalWhiteboard',
           suggestedDisplayName: 'Personal Whiteboard'
         };

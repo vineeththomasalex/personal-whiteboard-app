@@ -24,7 +24,7 @@
   "accentColor": "#FFFFFF",
   "configurableTabs": [
     {
-      "configurationUrl": "https://vineeththomasalex.github.io/personal-whiteboard-app/config.html",
+      "configurationUrl": "https://vineeththomasalex.github.io/personal-whiteboard-app/dist/config.html",
       "canUpdateConfiguration": true,
       "scopes": [
         "groupchat",
@@ -43,7 +43,7 @@
     {
       "entityId": "personalWhiteboard",
       "name": "My Board",
-      "contentUrl": "https://vineeththomasalex.github.io/personal-whiteboard-app/sidepanel.html?{context}",
+      "contentUrl": "https://vineeththomasalex.github.io/personal-whiteboard-app/dist/sidepanel.html?{context}",
       "scopes": [
         "personal",
         "groupChat",
