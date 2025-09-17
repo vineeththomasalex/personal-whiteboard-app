@@ -5,17 +5,21 @@ import { useState, useEffect } from 'react';
 import SidePanelView from './components/SidePanelView';
 import StageView from './components/StageView';
 import ConfigView from './components/ConfigView';
-import TeamsProvider from './contexts/TeamsProvider';
+import TeamsProvider, { useTeams } from './contexts/TeamsProvider';
 import ErrorBoundary from './components/ErrorBoundary';
 import './App.css';
 
-function App() {
+const AppContent = () => {
+  const { isLoading: teamsLoading, isInTeams, error: teamsError } = useTeams();
   const [host, setHost] = useState<any>(null);
   const [hostError, setHostError] = useState<string | null>(null);
+  const [isCreatingHost, setIsCreatingHost] = useState(false);
 
   useEffect(() => {
-    const initializeLiveShareHost = () => {
-      console.log('[APP] 🚀 Initializing Live Share Host...');
+    // Only create Live Share Host after Teams initialization is complete
+    if (!teamsLoading && !host && !isCreatingHost) {
+      console.log('[APP] 🚀 Teams initialization complete, creating Live Share Host...');
+      console.log('[APP] 📊 Teams state:', { teamsLoading, isInTeams, teamsError });
       console.log('[APP] 🌐 Environment check:', {
         url: window.location.href,
         hash: window.location.hash,
@@ -23,28 +27,85 @@ function App() {
         teamsJsAvailable: typeof (window as any).microsoftTeams !== 'undefined'
       });
 
-      try {
-        console.log('[APP] 📡 Creating Live Share Host...');
-        const liveShareHost = LiveShareHost.create();
-        console.log('[APP] ✅ Live Share Host created successfully:', liveShareHost);
-        setHost(liveShareHost);
-        setHostError(null);
-      } catch (error) {
-        console.error('[APP] ❌ Failed to create Live Share Host:', error);
-        setHostError(error instanceof Error ? error.message : 'Failed to create Live Share Host');
-        
-        // Create a mock host for development
-        console.log('[APP] 🛠️ Creating development mock host...');
-        setHost({
-          create: () => console.log('Mock Live Share Host'),
-          role: 'Local',
-          serviceEndpoint: 'localhost'
-        });
-      }
-    };
+      setIsCreatingHost(true);
 
-    initializeLiveShareHost();
-  }, []);
+      // Add a delay to ensure Teams SDK is fully ready
+      setTimeout(() => {
+        const initializeLiveShareHost = () => {
+          try {
+            console.log('[APP] 📡 Creating Live Share Host...');
+            const liveShareHost = LiveShareHost.create();
+            console.log('[APP] ✅ Live Share Host created successfully:', liveShareHost);
+            setHost(liveShareHost);
+            setHostError(null);
+          } catch (error) {
+            console.error('[APP] ❌ Failed to create Live Share Host:', error);
+            const errorMessage = error instanceof Error ? error.message : 'Failed to create Live Share Host';
+            setHostError(errorMessage);
+            
+            // Create a proper mock host that implements ILiveShareHost interface
+            console.log('[APP] 🛠️ Creating development mock host...');
+            const mockHost = {
+              create: () => console.log('Mock Live Share Host'),
+              role: 'Local',
+              serviceEndpoint: 'localhost',
+              getFluidTenantInfo: () => Promise.resolve({
+                tenantId: 'mock-tenant-id',
+                serviceEndpoint: 'https://localhost'
+              }),
+              getFluidToken: () => Promise.resolve('mock-token'),
+              getFluidContainerId: () => Promise.resolve('mock-container-id'),
+              setFluidContainerId: () => Promise.resolve(),
+              getNtpTimeAsync: () => Promise.resolve(Date.now()),
+              registerClientId: () => 'mock-client-id',
+              getClientRoles: () => ['Local'],
+              getClientInfo: () => Promise.resolve([]),
+              on: () => {},
+              off: () => {},
+              removeAllListeners: () => {}
+            };
+            setHost(mockHost);
+          } finally {
+            setIsCreatingHost(false);
+          }
+        };
+
+        initializeLiveShareHost();
+      }, 500); // 500ms delay to ensure Teams SDK is fully ready
+    }
+  }, [teamsLoading, isInTeams, teamsError, host, isCreatingHost]);
+
+  // Show loading state while Teams is initializing or Live Share Host is being created
+  if (teamsLoading || isCreatingHost) {
+    console.log('[APP] ⏳ Showing loading state - Teams:', teamsLoading, 'Host:', isCreatingHost);
+    return (
+      <div style={{ 
+        padding: '32px', 
+        textAlign: 'center',
+        fontFamily: 'Segoe UI, sans-serif',
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        <div>
+          <div style={{ 
+            width: '40px', 
+            height: '40px', 
+            border: '4px solid #f3f3f3',
+            borderTop: '4px solid #0078d4',
+            borderRadius: '50%',
+            animation: 'spin 1s linear infinite',
+            margin: '0 auto 16px'
+          }}></div>
+          <div>{teamsLoading ? '🔄 Initializing Teams...' : '🔗 Setting up Live Share...'}</div>
+          <div style={{ fontSize: '12px', color: '#666', marginTop: '8px' }}>
+            {teamsLoading ? 'Connecting to Teams platform' : 'Creating collaboration host'}
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   if (hostError && !host) {
     return (
@@ -111,20 +172,28 @@ function App() {
   console.log('[APP] 🎯 Rendering App with host:', host);
 
   return (
+    <LiveShareProvider host={host} joinOnLoad>
+      <Router>
+        <div className="App">
+          <Routes>
+            <Route path="/sidepanel" element={<SidePanelView />} />
+            <Route path="/stage" element={<StageView />} />
+            <Route path="/config" element={<ConfigView />} />
+            <Route path="/" element={<SidePanelView />} />
+          </Routes>
+        </div>
+      </Router>
+    </LiveShareProvider>
+  );
+};
+
+function App() {
+  console.log('[APP] 🎯 App component mounting');
+  
+  return (
     <ErrorBoundary>
       <TeamsProvider>
-        <LiveShareProvider host={host} joinOnLoad>
-          <Router>
-            <div className="App">
-              <Routes>
-                <Route path="/sidepanel" element={<SidePanelView />} />
-                <Route path="/stage" element={<StageView />} />
-                <Route path="/config" element={<ConfigView />} />
-                <Route path="/" element={<SidePanelView />} />
-              </Routes>
-            </div>
-          </Router>
-        </LiveShareProvider>
+        <AppContent />
       </TeamsProvider>
     </ErrorBoundary>
   );
