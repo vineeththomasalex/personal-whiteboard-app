@@ -15,17 +15,17 @@
     "outline": "outline.png"
   },
   "name": {
-    "short": "Private Whiteboard",
-    "full": "Private Whiteboard for Teams"
+    "short": "Canvassassin",
+    "full": "Private Canvas with collaboration features"
   },
   "description": {
-    "short": "A private whiteboard scratchpad for Teams meetings",
-    "full": "A private drawing canvas that provides each user with their own personal whiteboard during Teams meetings. Your drawings are private and not shared with other participants."
+    "short": "A private canvas for Teams meetings",
+    "full": "A private drawing canvas that provides each user with their own personal canvas during Teams meetings. Your drawings are private and not shared with other participants."
   },
   "accentColor": "#FFFFFF",
   "configurableTabs": [
     {
-      "configurationUrl": "https://localhost:3000/config.html",
+      "configurationUrl": "https://vineeththomasalex.github.io/personal-whiteboard-app/config.html",
       "canUpdateConfiguration": false,
       "scopes": [
           "groupchat",
@@ -41,8 +41,8 @@
     {
       "entityId": "private-whiteboard",
       "name": "Private Whiteboard",
-      "contentUrl": "https://localhost:3000/",
-      "websiteUrl": "https://localhost:3000/",
+      "contentUrl": "https://vineeththomasalex.github.io/personal-whiteboard-app/",
+      "websiteUrl": "https://vineeththomasalex.github.io/personal-whiteboard-app/",
       "scopes": [
         "personal"
       ]
@@ -52,12 +52,11 @@
     "identity"
   ],
   "validDomains": [
-    "localhost:3000"
+    "vineeththomasalex.github.io"
   ],
   "showLoadingIndicator": true,
   "authorization": {
       "permissions": {
-          "orgWide": [],
           "resourceSpecific": [
               {
                   "name": "MeetingStage.Write.Chat",
