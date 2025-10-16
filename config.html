@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Configure Whiteboard</title>
+    <script src="https://res.cdn.office.net/teams-js/2.16.0/js/MicrosoftTeams.min.js"></script>
+  </head>
+  <body>
+    <div style="padding: 20px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+      <h2>Configure Collaborative Whiteboard</h2>
+      <p>This will add a collaborative whiteboard to your Teams meeting or channel.</p>
+      <p>Click Save to continue.</p>
+    </div>
+    
+    <script>
+      microsoftTeams.app.initialize().then(() => {
+        microsoftTeams.pages.config.registerOnSaveHandler((saveEvent) => {
+          microsoftTeams.pages.config.setConfig({
+            entityId: "private-whiteboard",
+            contentUrl: window.location.origin + "/",
+            suggestedDisplayName: "Private Whiteboard",
+            websiteUrl: window.location.origin + "/"
+          });
+          saveEvent.notifySuccess();
+        });
+        
+        microsoftTeams.pages.config.setValidityState(true);
+      });
+    </script>
+  </body>
+</html>

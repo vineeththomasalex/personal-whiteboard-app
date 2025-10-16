@@ -1,0 +1,85 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/teams/v1.16/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.16",
+  "version": "1.0.1",
+  "id": "bb6ce7ec-62b1-4506-9c28-1f8017b4834c",
+  "packageName": "com.example.whiteboard",
+  "developer": {
+    "name": "IJustCantOso",
+    "websiteUrl": "https://www.example.com",
+    "privacyUrl": "https://www.example.com/privacy",
+    "termsOfUseUrl": "https://www.example.com/terms"
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "name": {
+    "short": "Private Whiteboard",
+    "full": "Private Whiteboard for Teams"
+  },
+  "description": {
+    "short": "A private whiteboard scratchpad for Teams meetings",
+    "full": "A private drawing canvas that provides each user with their own personal whiteboard during Teams meetings. Your drawings are private and not shared with other participants."
+  },
+  "accentColor": "#FFFFFF",
+  "configurableTabs": [
+    {
+      "configurationUrl": "https://localhost:3000/config.html",
+      "canUpdateConfiguration": false,
+      "scopes": [
+          "groupchat",
+          "team"
+      ],
+      "context": [
+          "meetingSidePanel",
+          "meetingStage"
+      ]
+    }
+  ],
+  "staticTabs": [
+    {
+      "entityId": "private-whiteboard",
+      "name": "Private Whiteboard",
+      "contentUrl": "https://localhost:3000/",
+      "websiteUrl": "https://localhost:3000/",
+      "scopes": [
+        "personal"
+      ]
+    }
+  ],
+  "permissions": [
+    "identity"
+  ],
+  "validDomains": [
+    "localhost:3000"
+  ],
+  "showLoadingIndicator": true,
+  "authorization": {
+      "permissions": {
+          "orgWide": [],
+          "resourceSpecific": [
+              {
+                  "name": "MeetingStage.Write.Chat",
+                  "type": "Delegated"
+              },
+              {
+                  "name": "OnlineMeeting.ReadBasic.Chat",
+                  "type": "Delegated"
+              },
+              {
+                  "name": "ChannelMeetingStage.Write.Group",
+                  "type": "Delegated"
+              },
+              {
+                  "name": "LiveShareSession.ReadWrite.Chat",
+                  "type": "Delegated"
+              },
+              {
+                  "name": "LiveShareSession.ReadWrite.Group",
+                  "type": "Delegated"
+              }
+          ]
+      }
+  }
+}
